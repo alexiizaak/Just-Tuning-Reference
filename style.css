@@ -1,0 +1,202 @@
+:root {
+    --red: #940025;
+    --cream: #f3ecda;
+    --muted: #8a7f6a;
+}
+
+@font-face {
+        font-family: "Fraunces";
+        src: url("Resources/Fonts/fraunces_120pt-light.woff2") format("woff2");
+        font-weight: 100;
+    }
+@font-face {
+        font-family: "Avenir";
+        src: url("Resources/Fonts/avenir-lt-w01_35-light1475496.woff2") format("woff2");
+        font-weight: 100;
+    }
+    
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    background-color: var(--cream);
+    color: black;
+    font-family: "Avenir", serif;
+    width: 80%;
+    padding: 5%;
+
+    }
+
+.master, .customRow {
+    text-align: center;
+    word-spacing: 1vw;
+    padding-bottom: 2vh;
+}
+
+#site-title {
+    position: relative;
+    font-family: "Fraunces", serif;
+    font-weight: 80;
+    font-size: clamp(2rem, 3vw, 4rem);
+    margin: 5% 10%;
+    text-align: center;
+    color: var(--red);
+    }
+
+    .sub {
+        font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+        text-align: center;
+    }
+
+    table {
+        width: 80%;
+        border-collapse: separate;
+        border-spacing: 3vh 1vw;
+    }
+
+    td {
+        padding: 3vh 3vw;
+    }
+
+    .intervalPanel {
+        flex: 1 1 18rem;
+        margin-top: 0;
+        border-radius: 10px;
+        padding: 10vh 0vw;
+        font-size: clamp(0.5rem, 1.5vw, 1.25rem);
+        word-spacing: 30%;
+        text-align: center;
+    }
+.intervalRow { padding: 4px 6px; }
+.intervalRow.muted { color: var(--muted); }
+    
+.tuner {
+    display: flex;
+    flex-wrap: wrap;            /* stacks automatically on narrow screens */
+    align-items: flex-start;
+    justify-content: center;
+    gap: 3vw;
+    margin: 5% 0;
+    padding: 0vh 3vw;
+}
+
+    #stringTable {
+    width: auto;
+    margin: 0;
+    flex: 0 0 auto;
+    font-size: clamp(0.5rem, 1.5vw, 1.25rem);
+    color: var(--red);
+}
+
+    #load-website {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2vh 0vw;
+        color: var(--red);
+    }
+
+    .fretboard {
+    width: min(100%, 70rem);
+    margin: 3% auto 1%;
+}
+.fretboard svg { display: block; width: 100%; height: auto; }
+
+.fretboard .nut         { stroke: var(--red); stroke-width: 4; }
+.fretboard .fretLine    { stroke: var(--red); stroke-opacity: 0.3; stroke-width: 1; }
+.fretboard .stringLine  { stroke: var(--red); stroke-width: 1.5; }
+.fretboard .inlay       { fill: var(--red); opacity: 0.1; }
+
+.fretboard text         { font-family: "Avenir", serif; fill: var(--red); }
+.fretboard .stringLabel { font-size: 13px; }
+.fretboard .fretNum     { font-size: 10px; opacity: 0.7; }
+.fretboard .hHz         { font-size: 9px; }
+.fretboard .hNum        { font-size: 10px; fill: var(--cream); }
+
+/* One colour per harmonic; the grey is the fallback if you raise MAX_HARMONIC further */
+.harmonic circle        { fill: #666; stroke: var(--cream); stroke-width: 2; }
+.h2 circle              { fill: #940025; }
+.h3 circle              { fill: #c2410c; }
+.h4 circle              { fill: #b7791f; }
+.h5 circle              { fill: #4d7c0f; }
+.h6 circle              { fill: #1d6f8a; }
+.h7 circle              { fill: #6d3f8f; }
+.harmonic:hover circle  { stroke: black; }
+
+.fretboardNote {
+    text-align: center;
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    color: var(--red);
+    opacity: 0.8;
+}
+
+.social {
+    margin: 2vh 1vw;
+    font-size: 18px;
+    color: var(--red);
+}
+.social:hover {
+    color: black;
+}
+a, .button, .social {
+    transition: color 0.3s ease;
+}
+        .button {
+            position: relative;
+                font-family: "Avenir", serif;
+                font-optical-sizing: auto;
+                font-weight: 100;
+                font-style: normal;
+                font-size: inherit;
+                text-align: center;   
+            margin: 0vh 0vw;
+            width: fit-content;
+            height: 50%;
+            }
+            
+                .button::after {              
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: -5px;
+                    right: 0;
+                    width: 0%;
+                    background: black;
+                    transition: width 0.5s ease;
+                }
+                    
+                        a, button {
+                            transition: color 0.3s ease;
+                        }
+                        .button:hover::after {
+                            width: 100%;
+                            height: 1px;
+                            
+                        }                    
+
+footer {
+    height: auto;
+    list-style: none;
+    text-align: center;
+    padding: 5vh 0vw 1vh 0vw; 
+}
+                .initials, .created-by {
+                    font-family: "Fraunces", serif;
+                    font-optical-sizing: auto;
+                    font-weight: 100;
+                    font-style: normal;
+                    font-size: 1.2vw;
+                    color: var(--red);
+                    text-align: center;
+                    margin: 2px;                    
+                }
+
+                .initials {margin-top: 30px;}
+                .created-by {margin: 2px;}
+
+
+section {
+    width: 100%;
+}
