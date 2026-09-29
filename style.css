@@ -35,6 +35,59 @@ body {
     padding-bottom: 2vh;
 }
 
+.presets {
+    width: min(90%, 40rem);
+    margin: 5% auto;
+}
+.presetsTitle {
+    font-family: "Fraunces", serif;
+    font-weight: 100;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: var(--red);
+    text-align: center;
+    margin-bottom: 1em;
+}
+.presetSave {
+    display: flex;
+    gap: 0.75em;
+    justify-content: center;
+    margin-bottom: 1.5em;
+}
+#presetName {
+    font-family: "Avenir", serif;
+    padding: 0.4em 0.6em;
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    background: transparent;
+    color: black;
+}
+.presetList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.presetRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    padding: 0.5em 0.75em;
+    border-bottom: 1px solid rgba(148, 0, 37, 0.2);
+}
+.presetRow.muted { color: var(--muted); border-bottom: none; justify-content: center; }
+.presetName { flex: 1; }
+.presetLoad, .presetDelete {
+    font-family: "Avenir", serif;
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--red);
+    border-radius: 6px;
+    padding: 0.25em 0.7em;
+    cursor: pointer;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+.presetLoad:hover { background: var(--red); color: var(--cream); }
+.presetDelete:hover { background: black; border-color: black; color: var(--cream); }
+
 #site-title {
     position: relative;
     font-family: "Fraunces", serif;

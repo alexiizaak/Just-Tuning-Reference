@@ -308,11 +308,87 @@ function attachMasterControls() {
   });
 }
 
+// ---------- Presets ----------
+const PRESET_KEY = "justTuningPresets";
+
+function loadPresets() {
+  try { return JSON.parse(localStorage.getItem(PRESET_KEY)) || []; }
+  catch { return []; }
+}
+
+function savePresets(list) {
+  localStorage.setItem(PRESET_KEY, JSON.stringify(list));
+}
+
+function currentTuning() {
+  return {
+    strings: strings.map((s, i) => parseFloat(document.getElementById("freq-string-" + i).value)),
+    ref: parseFloat(document.getElementById("customFreq").value)
+  };
+}
+
+function applyTuning(tuning) {
+  tuning.strings.forEach((freq, i) => {
+    const input = document.getElementById("freq-string-" + i);
+    if (!input || !(freq > 0)) return;
+    input.value = freq;
+    updateNoteDisplay("string-" + i);
+  });
+  if (tuning.ref > 0) {
+    const refInput = document.getElementById("customFreq");
+    refInput.value = tuning.ref;
+  }
+  updateIntervalPanel();
+  drawFretboard();
+}
+
+function renderPresetList() {
+  const list = document.getElementById("presetList");
+  const presets = loadPresets();
+  list.innerHTML = presets.length
+    ? presets.map((p, i) => `
+        <li class="presetRow">
+          <span class="presetName">${p.name}</span>
+          <button class="presetLoad" data-index="${i}">Load</button>
+          <button class="presetDelete" data-index="${i}">Delete</button>
+        </li>`).join("")
+    : `<li class="presetRow muted">No presets saved yet</li>`;
+}
+
+function attachPresetHandlers() {
+  document.getElementById("savePreset").addEventListener("click", () => {
+    const nameInput = document.getElementById("presetName");
+    const name = nameInput.value.trim();
+    if (!name) { nameInput.focus(); return; }
+    const presets = loadPresets();
+    presets.push({ name, ...currentTuning() });
+    savePresets(presets);
+    nameInput.value = "";
+    renderPresetList();
+  });
+
+  document.getElementById("presetList").addEventListener("click", e => {
+    const index = e.target.dataset.index;
+    if (index === undefined) return;
+    const presets = loadPresets();
+
+    if (e.target.classList.contains("presetLoad")) {
+      applyTuning(presets[index]);
+    } else if (e.target.classList.contains("presetDelete")) {
+      presets.splice(index, 1);
+      savePresets(presets);
+      renderPresetList();
+    }
+  });
+}
+
 function init() {
   buildStringRows();
   attachPlayHandlers();
   attachFrequencyInputHandlers();
   attachMasterControls();
+  attachPresetHandlers
+  renderPresetList();
 }
 
 document.addEventListener("DOMContentLoaded", init);
