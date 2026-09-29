@@ -200,12 +200,14 @@ function attachPlayHandlers() {
 }
 
 // ------------------------------Fretboard Harmonics Graph ---------------------------------------------------
-const MAX_HARMONIC = 6; // highest harmonic shown (2 = octave, 3 = octave + fifth)
+// ---------- Fretboard harmonics graph ----------
+const MAX_HARMONIC = 6;   // highest harmonic shown (2 = octave, 3 = octave + fifth, ...)
 const MAX_FRET = 24;
 const INLAYS = { 3: 1, 5: 1, 7: 1, 9: 1, 12: 2, 15: 1, 17: 1, 19: 1, 21: 1, 24: 2 };
 
-const gcd = (a,b) => (b ? gcd(b, a % b) : a);
+const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 
+// Fret number (12-TET spacing) of a point `fraction` of the way along the string from the nut
 const fretAt = fraction => -12 * Math.log2(1 - fraction);
 
 // Every touch-point k/n that sounds harmonic n (must be fully reduced: 2/4 is really harmonic 2)
@@ -216,16 +218,6 @@ for (let n = 2; n <= MAX_HARMONIC; n++) {
     const fret = fretAt(k / n);
     if (fret <= MAX_FRET + 0.01) HARMONIC_NODES.push({ n, k, fret });
   }
-}
-
-const INTERVAL_NAMES = ["P8", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7"];
-
-// Harmonic n sits n:1 above the open string. Reduce that to within one octave and
-// name the nearest equal-tempered interval, plus how far the true harmonic is from it.
-function harmonicInterval(n) {
-  const cents = toCents(n) % 1200;
-  const semis = Math.round(cents / 100);
-  return { label: INTERVAL_NAMES[semis % 12], dev: cents - semis * 100 };
 }
 
 function drawFretboard() {
@@ -271,16 +263,13 @@ function drawFretboard() {
 
     HARMONIC_NODES.forEach(({ n, k, fret }) => {
       const x = xAt(fret), hz = f0 * n, note = frequencyToNote(hz);
-      const { label, dev } = harmonicInterval(n);
-      const devSign = dev > 0 ? "+" : "";
       const sign = note && note.cents > 0 ? "+" : "";
-      const tip = `${s.name}: ${label} above the open string (harmonic ${n}, ${devSign}${dev.toFixed(1)}¢ from equal temperament)\n`
-        + `Touch ${k}/${n} along the string (fret ${fret.toFixed(2)}): ${hz.toFixed(2)} Hz`
+      const tip = `${s.name}, harmonic ${n} (touch ${k}/${n} along the string, fret ${fret.toFixed(2)}): ${hz.toFixed(2)} Hz`
         + (note ? ` ≈ ${note.name} (${sign}${note.cents}¢)` : "");
       svg += `<g class="harmonic h${n}"><title>${tip}</title>`
-        + `<circle cx="${r(x)}" cy="${r(y)}" r="12"/>`
-        + `<text class="hNum" x="${r(x)}" y="${r(y + 4)}" text-anchor="middle">${label}</text>`
-        + `<text class="hHz" x="${r(x)}" y="${r(y + 27)}" text-anchor="middle">${hz.toFixed(1)}</text></g>`;
+        + `<circle cx="${r(x)}" cy="${r(y)}" r="10"/>`
+        + `<text class="hNum" x="${r(x)}" y="${r(y + 4)}" text-anchor="middle">${n}</text>`
+        + `<text class="hHz" x="${r(x)}" y="${r(y + 25)}" text-anchor="middle">${hz.toFixed(1)}</text></g>`;
     });
   });
 
